@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RestWithASPNETErudio.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PersonController : ControllerBase
+    public class CalculatorController : ControllerBase
     {
-        private readonly ILogger<PersonController> _logger;
-
-        public PersonController(ILogger<PersonController> logger)
+        private readonly ILogger<CalculatorController> _logger;
+        public CalculatorController(ILogger<CalculatorController> logger)
         {
             _logger = logger;
         }
@@ -17,7 +18,7 @@ namespace RestWithASPNETErudio.Controllers
         [HttpGet("sum/{firstNumber}/{secondNumber}")]
         public IActionResult Sum(string firstNumber, string secondNumber)
         {
-            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
                 var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
                 return Ok(sum.ToString());
@@ -39,31 +40,31 @@ namespace RestWithASPNETErudio.Controllers
         [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
         public IActionResult Multiplication(string firstNumber, string secondNumber)
         {
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
-            return BadRequest("Invalid Input");
+            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
+                {
+                    var sum = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
+                    return Ok(sum.ToString());
+                }
+                return BadRequest("Invalid Input");
         }
 
         [HttpGet("division/{firstNumber}/{secondNumber}")]
         public IActionResult Division(string firstNumber, string secondNumber)
         {
-            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
-            {
-                var sum = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
-            }
+            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
+                {
+                        var sum = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
+                        return Ok(sum.ToString());
+                }
             return BadRequest("Invalid Input");
         }
 
         [HttpGet("mean/{firstNumber}/{secondNumber}")]
-        public IActionResult Mean(string firstNumber, string secondNumber)
+        public IActionResult Mean(string firstNumber, string secondNumber) 
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                var sum = (ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber)) / 2;
+                var sum = (ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber));
                 return Ok(sum.ToString());
             }
             return BadRequest("Invalid Input");
@@ -79,7 +80,6 @@ namespace RestWithASPNETErudio.Controllers
             }
             return BadRequest("Invalid Input");
         }
-
         private bool IsNumeric(string strNumber)
         {
             double number;
@@ -90,11 +90,10 @@ namespace RestWithASPNETErudio.Controllers
                 out number);
             return isNumber;
         }
-
         private decimal ConvertToDecimal(string strNumber)
         {
             decimal decimalValue;
-            if (decimal.TryParse(strNumber, out decimalValue))
+            if(decimal.TryParse(strNumber, out decimalValue))
             {
                 return decimalValue;
             }
